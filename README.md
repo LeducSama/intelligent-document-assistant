@@ -5,11 +5,11 @@ An advanced **LLM + RAG** system with conversation intelligence that provides co
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 🎯 Key Innovation
+## Key Innovation
 
 Instead of overwhelming users with generic responses, this system uses **conversation intelligence** to provide exactly what users need:
 
-## 🤖 Smart Decision Tree
+## Smart Decision Tree
 
 ```
 User Query → RAG Retrieval → Decision Tree:
@@ -18,7 +18,7 @@ User Query → RAG Retrieval → Decision Tree:
 └─ No clear procedure found?    → Ask for more context about their situation
 ```
 
-## 🏗️ Architecture
+## Architecture
 
 ### LLM Integration Points
 - **Response Generation**: Always uses LLM for natural language responses
@@ -32,7 +32,7 @@ User Query → RAG Retrieval → Decision Tree:
 - **Source Attribution**: Tracks which documents provided information
 - **Confidence Scoring**: Evaluates how well retrieved content matches the query
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Clone and Setup
 ```bash
@@ -63,7 +63,7 @@ python3 test_llm_rag.py
 ```
 Comprehensive test suite demonstrating the decision tree approach.
 
-## 💬 Chat Features
+## Chat Features
 
 ### Commands
 - `help` - Show available commands and tips
@@ -77,7 +77,7 @@ Comprehensive test suite demonstrating the decision tree approach.
 1. **Mock LLM** - Free, no API key needed, good responses based on content matching
 2. **Google Gemini** - Free API with generous limits, requires `GOOGLE_API_KEY` environment variable
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── llm_rag_system.py    # Core LLM+RAG system with decision tree
@@ -88,7 +88,7 @@ Comprehensive test suite demonstrating the decision tree approach.
 └── README.md            # This file
 ```
 
-## 🧪 Decision Tree Examples
+## Decision Tree Examples
 
 ### Scenario 1: Clear Single Procedure
 ```
@@ -114,7 +114,7 @@ User: "KeePass isn't working"
 → Response: "I found troubleshooting information. Could you describe the specific problem you're experiencing?"
 ```
 
-## 🔧 Technical Details
+## Technical Details
 
 ### Vector Embeddings
 - Uses TF-IDF approach for semantic similarity
@@ -132,7 +132,7 @@ User: "KeePass isn't working"
 - LLM enhancement only for vague queries
 - Contextual search for follow-up questions
 
-## 📊 Example Output
+## Example Output
 
 ```
 🔐 You: How do I use auto-type?
@@ -161,7 +161,7 @@ into forms and applications, saving you from manual copy-paste operations.
 4. **Cost Efficient**: Minimal LLM calls through smart routing
 5. **Extensible**: Easy to add new LLM providers or embedding methods
 
-## 🔄 Conversation Flow
+## Conversation Flow
 
 The system maintains conversation context and uses it for:
 - Query enhancement based on previous questions
