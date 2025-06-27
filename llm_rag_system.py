@@ -726,30 +726,30 @@ class LLMRAGSystem:
     def query(self, user_question: str, verbose: bool = False) -> LLMResponse:
         """Main query processing with decision tree approach and conversation intelligence"""
         if verbose:
-            print(f"🔍 Processing query: {user_question}")
+            print(f"Processing query: {user_question}")
         
         # Step 1: Classify user intent and update profile
         intent = self._classify_intent(user_question)
         self._update_user_profile(user_question, intent)
         if verbose:
-            print(f"🎯 Intent: {intent.value}, Expertise: {self.user_profile.expertise_level.value}")
+            print(f"Intent: {intent.value}, Expertise: {self.user_profile.expertise_level.value}")
         
         # Step 2: Route the query with context awareness
         routing = self._route_query_with_context(user_question, intent)
         if verbose:
-            print(f"📍 Routing decision: {routing.value}")
+            print(f"Routing decision: {routing.value}")
         
         # Step 3: Enhance query if needed (with conversation context)
         enhanced_query = user_question
         if routing == RoutingDecision.NEEDS_LLM_ENHANCEMENT:
             enhanced_query = self.llm.enhance_query(user_question, self._get_conversation_context())
             if verbose:
-                print(f"🔄 Enhanced query: {enhanced_query}")
+                print(f"Enhanced query: {enhanced_query}")
         
         # Step 4: RAG finds relevant sections (intent-aware)
         retrieval_result = self._retrieve_relevant_chunks_with_intent(enhanced_query, intent)
         if verbose:
-            print(f"📖 Found {len(retrieval_result.chunks)} relevant chunks (confidence: {retrieval_result.confidence:.2f})")
+            print(f"Found {len(retrieval_result.chunks)} relevant chunks (confidence: {retrieval_result.confidence:.2f})")
         
         # Step 5: Decision Tree Logic (expertise-aware)
         response = self._apply_decision_tree_with_context(retrieval_result, user_question, intent, verbose)
@@ -912,7 +912,7 @@ class LLMRAGSystem:
         chunk_scores.sort(key=lambda x: x[1], reverse=True)
         
         # Filter by minimum threshold
-        min_threshold = 0.1
+        min_threshold = 0.05
         top_chunks = [chunk for chunk, score in chunk_scores[:top_k] if score > min_threshold]
         top_scores = [score for chunk, score in chunk_scores[:top_k] if score > min_threshold]
         
@@ -1046,7 +1046,7 @@ class LLMRAGSystem:
             len(retrieval_result.chunks) == 1) or retrieval_result.single_clear_answer():
             
             if verbose:
-                print("✅ Single clear answer found - generating direct response")
+                print("Single clear answer found - generating direct response")
             
             response_content = self._generate_expertise_aware_response(
                 retrieval_result.chunks, original_query, intent
@@ -1064,7 +1064,7 @@ class LLMRAGSystem:
               len(retrieval_result.chunks) > 1) or retrieval_result.multiple_related_procedures():
             
             if verbose:
-                print("❓ Multiple procedures found - generating clarifying questions")
+                print("Multiple procedures found - generating clarifying questions")
             
             clarification_questions = self.llm.generate_clarification_questions(
                 retrieval_result.chunks, original_query
@@ -1085,7 +1085,7 @@ class LLMRAGSystem:
         # Decision Point 3: No clear procedure found
         else:
             if verbose:
-                print("🔄 No clear answer - asking for more context")
+                print("No clear answer - asking for more context")
             
             if retrieval_result.chunks:
                 # Some relevant content found - provide what we have
@@ -1188,7 +1188,7 @@ class LLMRAGSystem:
         # Decision Point 1: Is there exactly ONE clear procedure?
         if retrieval_result.single_clear_answer():
             if verbose:
-                print("✅ Single clear answer found - generating direct response")
+                print("Single clear answer found - generating direct response")
             response_content = self.llm.generate_response(
                 prompt="Generate a helpful response based on this documentation",
                 context_chunks=retrieval_result.chunks,
@@ -1208,7 +1208,7 @@ class LLMRAGSystem:
         # Decision Point 2: Are there multiple procedures?
         elif retrieval_result.multiple_related_procedures():
             if verbose:
-                print("❓ Multiple procedures found - generating clarifying questions")
+                print("Multiple procedures found - generating clarifying questions")
             clarification_questions = self.llm.generate_clarification_questions(
                 retrieval_result.chunks, original_query
             )
@@ -1228,7 +1228,7 @@ class LLMRAGSystem:
         # Decision Point 3: No clear procedure found
         else:
             if verbose:
-                print("🔄 No clear answer - asking for more context")
+                print("No clear answer - asking for more context")
             if retrieval_result.chunks:
                 # Some relevant content found but not specific enough
                 partial_content = self.llm.generate_response(

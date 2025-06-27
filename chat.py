@@ -36,11 +36,11 @@ class TerminalChat:
         
     def setup_system(self):
         """Setup the RAG system with user configuration"""
-        print("🔐 KeePass Assistant - LLM + RAG System")
+        print("KeePass Assistant - LLM + RAG System")
         print("=" * 50)
         
         # Ask about LLM provider
-        print("\n🤖 Choose LLM Provider:")
+        print("\nChoose LLM Provider:")
         print("1. Mock LLM (Free, no API key needed)")
         print("2. Google Gemini (Free API key)")
         
@@ -64,7 +64,7 @@ class TerminalChat:
                     use_gemini = False
                 else:
                     # Ask for model choice
-                    print("\n🔧 Choose Gemini model:")
+                    print("\nChoose Gemini model:")
                     print("1. gemini-1.5-flash (fastest, free)")
                     print("2. gemini-1.5-pro (most capable)")
                     
@@ -73,7 +73,7 @@ class TerminalChat:
                     gemini_model = models.get(model_choice, "gemini-1.5-flash")
         
         # Initialize system
-        print(f"\n🚀 Initializing RAG System...")
+        print(f"\nInitializing RAG System...")
         self.rag_system = LLMRAGSystem(
             use_gemini=use_gemini,
             gemini_api_key=gemini_key,
@@ -81,18 +81,18 @@ class TerminalChat:
         )
         
         # Load KeePass documentation
-        print("📄 Loading KeePass documentation...")
+        print("Loading KeePass documentation...")
         pdf_result = process_pdf_for_rag("./KeePass2-GS.pdf")
         
         if not pdf_result['success']:
-            print(f"❌ Error loading PDF: {pdf_result['error']}")
+            print(f"Error loading PDF: {pdf_result['error']}")
             return False
         
         documents = {"KeePass2-GS.pdf": pdf_result['content']}
         self.rag_system.load_documents(documents)
         
         stats = self.rag_system.get_stats()
-        print(f"✅ System ready! Loaded {stats['total_chunks']} knowledge chunks")
+        print(f"System ready! Loaded {stats['total_chunks']} knowledge chunks")
         
         self.setup_complete = True
         return True
@@ -100,15 +100,15 @@ class TerminalChat:
     def show_help(self):
         """Show help information"""
         help_text = """
-🔐 KeePass Assistant Commands:
+KeePass Assistant Commands:
 
-💬 CHAT:
+CHAT:
    • Just type your question naturally
    • Examples: "How do I install KeePass?"
             "What is auto-type?"
             "How do I create a database?"
 
-🛠️ COMMANDS:
+COMMANDS:
    • help     - Show this help
    • status   - Show system status  
    • stats    - Show conversation statistics
@@ -117,7 +117,7 @@ class TerminalChat:
    • verbose  - Toggle verbose mode (shows decision tree steps)
    • quit     - Exit the chat
 
-💡 TIPS:
+TIPS:
    • Be specific about what you want to do
    • The system uses a decision tree approach:
      - 1 clear procedure → Direct answer
@@ -125,7 +125,7 @@ class TerminalChat:
      - No clear match → Ask for more context
    • Follow-up questions help narrow down to exact answers
 
-🎯 DECISION TREE:
+DECISION TREE:
    User Question → RAG Retrieval → Decision Tree:
    ├─ Exactly ONE procedure? → Direct Answer
    ├─ Multiple procedures?   → Clarification Questions  
@@ -136,7 +136,7 @@ class TerminalChat:
     def show_status(self):
         """Show system status"""
         if not self.setup_complete:
-            print("❌ System not initialized")
+            print("System not initialized")
             return
         
         stats = self.rag_system.get_stats()
@@ -150,31 +150,31 @@ class TerminalChat:
         else:
             llm_type = "Mock LLM"
         
-        print(f"\n📊 System Status:")
-        print(f"   🤖 LLM Provider: {llm_type}")
-        print(f"   📚 Knowledge Chunks: {stats['total_chunks']}")
-        print(f"   💬 Conversation Turns: {stats['conversation_turns']}")
-        print(f"   🔧 LLM API Calls: {stats['llm_api_calls']}")
-        print(f"   📄 Avg Chunk Size: {stats['avg_chunk_size']:.0f} chars")
-        print(f"   🎯 User Expertise: {stats['user_expertise_level'].title()}")
+        print(f"\nSystem Status:")
+        print(f"   LLM Provider: {llm_type}")
+        print(f"   Knowledge Chunks: {stats['total_chunks']}")
+        print(f"   Conversation Turns: {stats['conversation_turns']}")
+        print(f"   LLM API Calls: {stats['llm_api_calls']}")
+        print(f"   Avg Chunk Size: {stats['avg_chunk_size']:.0f} chars")
+        print(f"   User Expertise: {stats['user_expertise_level'].title()}")
         if stats['topics_of_interest']:
-            print(f"   💡 Topics of Interest: {', '.join(stats['topics_of_interest'])}")
+            print(f"   Topics of Interest: {', '.join(stats['topics_of_interest'])}")
         if stats['recent_intents']:
-            print(f"   🎪 Recent Intents: {', '.join(stats['recent_intents'][-3:])}")
+            print(f"   Recent Intents: {', '.join(stats['recent_intents'][-3:])}")
         if stats['unresolved_questions'] > 0:
-            print(f"   ❓ Unresolved Questions: {stats['unresolved_questions']}")
-        print(f"   📚 Total Documents: {stats['total_documents']}")
-        print(f"   📖 Active Documents: {', '.join(stats['active_documents']) if stats['active_documents'] else 'None'}")
+            print(f"   Unresolved Questions: {stats['unresolved_questions']}")
+        print(f"   Total Documents: {stats['total_documents']}")
+        print(f"   Active Documents: {', '.join(stats['active_documents']) if stats['active_documents'] else 'None'}")
     
     def show_stats(self):
         """Show conversation statistics"""
         if not self.setup_complete:
-            print("❌ System not initialized")
+            print("System not initialized")
             return
         
         history = self.rag_system.conversation_history
         if not history:
-            print("📊 No conversations yet")
+            print("No conversations yet")
             return
         
         # Analyze conversation types
@@ -183,38 +183,38 @@ class TerminalChat:
         for rtype in response_types:
             type_counts[rtype] = type_counts.get(rtype, 0) + 1
         
-        print(f"\n📊 Conversation Statistics:")
-        print(f"   💬 Total Questions: {len(history)}")
+        print(f"\nConversation Statistics:")
+        print(f"   Total Questions: {len(history)}")
         for rtype, count in type_counts.items():
-            emoji = {"direct_answer": "📋", "clarification_needed": "❓", "not_found": "🔍", "error": "❌"}.get(rtype, "💬")
+            emoji = {"direct_answer": "-", "clarification_needed": "-", "not_found": "-", "error": "-"}.get(rtype, "-")
             print(f"   {emoji} {rtype.replace('_', ' ').title()}: {count}")
         
         # Show recent questions
-        print(f"\n📝 Recent Questions:")
+        print(f"\nRecent Questions:")
         for turn in history[-3:]:
             print(f"   Q: {turn['question'][:60]}{'...' if len(turn['question']) > 60 else ''}")
     
     def manage_documents(self):
         """Document management interface"""
         if not self.setup_complete:
-            print("❌ System not initialized")
+            print("System not initialized")
             return
         
         while True:
-            print(f"\n📚 Document Management")
+            print(f"\nDocument Management")
             print("=" * 30)
             
             # Show current status
             available_docs = self.rag_system.get_available_documents()
             active_docs = self.rag_system.get_active_documents()
             
-            print(f"📖 Available Documents:")
+            print(f"Available Documents:")
             for i, doc in enumerate(available_docs, 1):
-                status = "🟢 ACTIVE" if doc in active_docs else "⚪ inactive"
+                status = "ACTIVE" if doc in active_docs else "inactive"
                 chunks = len(self.rag_system.document_chunks.get(doc, []))
                 print(f"   {i}. {doc} ({chunks} chunks) - {status}")
             
-            print(f"\n🛠️ Options:")
+            print(f"\nOptions:")
             print("1. Switch active documents")
             print("2. Add new document")
             print("3. Remove document") 
@@ -236,10 +236,10 @@ class TerminalChat:
     def _switch_documents(self, available_docs):
         """Switch which documents are active"""
         if not available_docs:
-            print("❌ No documents available")
+            print("No documents available")
             return
         
-        print(f"\n📖 Select documents to activate (comma-separated numbers):")
+        print(f"\nSelect documents to activate (comma-separated numbers):")
         for i, doc in enumerate(available_docs, 1):
             print(f"   {i}. {doc}")
         
@@ -251,21 +251,21 @@ class TerminalChat:
             
             if selected_docs:
                 self.rag_system.set_active_documents(selected_docs)
-                print(f"✅ Activated documents: {', '.join(selected_docs)}")
-                print("🔄 Conversation context reset for new document focus")
+                print(f"Activated documents: {', '.join(selected_docs)}")
+                print("Conversation context reset for new document focus")
             else:
-                print("❌ No valid documents selected")
+                print("No valid documents selected")
                 
         except (ValueError, IndexError):
-            print("❌ Invalid selection format")
+            print("Invalid selection format")
     
     def _add_document(self):
         """Add a new document to the system"""
-        print(f"\n📄 Add New Document")
+        print(f"\nAdd New Document")
         file_path = input("Enter document path: ").strip()
         
         if not file_path:
-            print("❌ No file path provided")
+            print("No file path provided")
             return
         
         try:
@@ -277,7 +277,7 @@ class TerminalChat:
                     content = result['content']
                     doc_name = file_path.split('/')[-1]  # Get filename
                 else:
-                    print(f"❌ Error processing PDF: {result['error']}")
+                    print(f"Error processing PDF: {result['error']}")
                     return
             else:
                 # Try to read as text file
@@ -287,20 +287,20 @@ class TerminalChat:
             
             # Add to system
             self.rag_system.add_document(doc_name, content, set_active=True)
-            print(f"✅ Added and activated document: {doc_name}")
+            print(f"Added and activated document: {doc_name}")
             
         except FileNotFoundError:
-            print(f"❌ File not found: {file_path}")
+            print(f"File not found: {file_path}")
         except Exception as e:
-            print(f"❌ Error adding document: {e}")
+            print(f"Error adding document: {e}")
     
     def _remove_document(self, available_docs):
         """Remove a document from the system"""
         if not available_docs:
-            print("❌ No documents to remove")
+            print("No documents to remove")
             return
         
-        print(f"\n🗑️ Select document to remove:")
+        print(f"\nSelect document to remove:")
         for i, doc in enumerate(available_docs, 1):
             print(f"   {i}. {doc}")
         
@@ -309,24 +309,24 @@ class TerminalChat:
             if 0 <= choice < len(available_docs):
                 doc_to_remove = available_docs[choice]
                 
-                confirm = input(f"⚠️  Really remove '{doc_to_remove}'? (y/N): ").strip().lower()
+                confirm = input(f" Really remove '{doc_to_remove}'? (y/N): ").strip().lower()
                 if confirm == 'y':
                     self.rag_system.remove_document(doc_to_remove)
-                    print(f"✅ Removed document: {doc_to_remove}")
+                    print(f"Removed document: {doc_to_remove}")
                 else:
-                    print("❌ Cancelled")
+                    print("Cancelled")
             else:
-                print("❌ Invalid selection")
+                print("Invalid selection")
         except ValueError:
-            print("❌ Invalid input")
+            print("Invalid input")
     
     def run(self):
         """Main chat loop"""
         if not self.setup_system():
-            print("❌ Failed to initialize system")
+            print("Failed to initialize system")
             return
         
-        print(f"\n💬 Chat started! Type 'help' for commands, 'quit' to exit")
+        print(f"\nChat started! Type 'help' for commands, 'quit' to exit")
         print("=" * 50)
         
         verbose_mode = False
@@ -334,7 +334,7 @@ class TerminalChat:
         try:
             while True:
                 # Get user input
-                user_input = input(f"\n🔐 You: ").strip()
+                user_input = input(f"\nYou: ").strip()
                 
                 if not user_input:
                     continue
@@ -356,50 +356,50 @@ class TerminalChat:
                     continue
                 elif user_input.lower() == 'clear':
                     self.rag_system.conversation_history = []
-                    print("🧹 Conversation history cleared")
+                    print("Conversation history cleared")
                     continue
                 elif user_input.lower() == 'verbose':
                     verbose_mode = not verbose_mode
-                    print(f"🔧 Verbose mode: {'ON' if verbose_mode else 'OFF'}")
+                    print(f"Verbose mode: {'ON' if verbose_mode else 'OFF'}")
                     continue
                 
                 # Process question through RAG system
-                print("🤖 Assistant: ", end="", flush=True)
+                print("Assistant: ", end="", flush=True)
                 response = self.rag_system.query(user_input, verbose=verbose_mode)
                 
                 # Display response with appropriate formatting
                 self._display_response(response)
                 
         except KeyboardInterrupt:
-            print(f"\n\n👋 Chat interrupted. Goodbye!")
+            print(f"\n\nChat interrupted. Goodbye!")
         except Exception as e:
-            print(f"\n❌ Unexpected error: {e}")
+            print(f"\nUnexpected error: {e}")
         
         # Show final stats
-        print(f"\n📊 Final Statistics:")
+        print(f"\nFinal Statistics:")
         self.show_stats()
-        print(f"\n👋 Thank you for using KeePass Assistant!")
+        print(f"\nThank you for using KeePass Assistant!")
     
     def _display_response(self, response):
         """Display response with proper formatting"""
         
         # Response type indicator
         type_indicators = {
-            ResponseType.DIRECT_ANSWER: "📋",
-            ResponseType.CLARIFICATION_NEEDED: "❓", 
-            ResponseType.NOT_FOUND: "🔍",
-            ResponseType.ERROR: "❌"
+            ResponseType.DIRECT_ANSWER: "-",
+            ResponseType.CLARIFICATION_NEEDED: "-", 
+            ResponseType.NOT_FOUND: "-",
+            ResponseType.ERROR: "-"
         }
         
-        indicator = type_indicators.get(response.response_type, "💬")
+        indicator = type_indicators.get(response.response_type, "-")
         
         # Confidence indicator  
         if response.confidence >= 0.8:
-            conf_color = "🟢"
+            conf_color = "HIGH"
         elif response.confidence >= 0.5:
-            conf_color = "🟡"
+            conf_color = "MED"
         else:
-            conf_color = "🔴"
+            conf_color = "LOW"
         
         print(f"{indicator} (confidence: {conf_color} {response.confidence:.2f})\n")
         
@@ -408,18 +408,18 @@ class TerminalChat:
         
         # Additional information
         if response.sources and response.response_type == ResponseType.DIRECT_ANSWER:
-            print(f"\n📚 Source: {', '.join(response.sources)}")
+            print(f"\nSource: {', '.join(response.sources)}")
         
         if response.clarification_questions and len(response.clarification_questions) > 1:
-            print(f"\n💡 You could also ask:")
+            print(f"\nYou could also ask:")
             for question in response.clarification_questions[1:3]:  # Show 2 more options
                 print(f"   • {question}")
         
         # Show follow-up suggestions for certain response types
         if response.response_type == ResponseType.CLARIFICATION_NEEDED:
-            print(f"\n💭 Try being more specific or providing additional context.")
+            print(f"\nTry being more specific or providing additional context.")
         elif response.response_type == ResponseType.NOT_FOUND:
-            print(f"💭 Try rephrasing your question or asking about a different KeePass topic.")
+            print(f"Try rephrasing your question or asking about a different KeePass topic.")
 
 
 def main():
@@ -428,7 +428,7 @@ def main():
         chat = TerminalChat()
         chat.run()
     except Exception as e:
-        print(f"❌ Fatal error: {e}")
+        print(f"Fatal error: {e}")
         sys.exit(1)
 
 

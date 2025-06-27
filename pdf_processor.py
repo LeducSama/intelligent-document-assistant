@@ -220,13 +220,13 @@ A: Yes, most browsers can export passwords that KeePass can import.
 KeePass 2 is a powerful tool for managing your passwords securely. Start with basic features and gradually explore advanced options as you become more comfortable with the software.
 """
         
-        print(f"📄 Extracted text from PDF: {pdf_path}")
-        print(f"📊 Content length: {len(simulated_content)} characters")
+        print(f" Extracted text from PDF: {pdf_path}")
+        print(f" Content length: {len(simulated_content)} characters")
         
         return simulated_content
         
     except Exception as e:
-        print(f"❌ Error extracting PDF text: {e}")
+        print(f" Error extracting PDF text: {e}")
         return f"Error reading PDF file: {str(e)}"
 
 
@@ -270,23 +270,23 @@ def test_pdf_processing():
     """Test PDF processing functionality"""
     pdf_path = "./KeePass2-GS.pdf"
     
-    print("🧪 Testing PDF Processing")
+    print(" Testing PDF Processing")
     print("=" * 40)
     
     result = process_pdf_for_rag(pdf_path)
     
     if result['success']:
-        print("✅ PDF processing successful!")
-        print(f"📄 File: {result['metadata']['file_name']}")
-        print(f"📊 Content length: {result['metadata']['content_length']} chars")
-        print(f"🌍 Language: {result['metadata']['language']}")
-        print(f"📖 Estimated pages: {result['metadata']['estimated_pages']}")
-        print(f"\n📝 Content preview:")
+        print(" PDF processing successful!")
+        print(f" File: {result['metadata']['file_name']}")
+        print(f" Content length: {result['metadata']['content_length']} chars")
+        print(f" Language: {result['metadata']['language']}")
+        print(f" Estimated pages: {result['metadata']['estimated_pages']}")
+        print(f"\n Content preview:")
         print(result['content'][:300] + "..." if len(result['content']) > 300 else result['content'])
         
         return result
     else:
-        print(f"❌ PDF processing failed: {result['error']}")
+        print(f" PDF processing failed: {result['error']}")
         return None
 
 
